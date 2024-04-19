@@ -5,6 +5,8 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class StatCompilerTest {
+   // TODO MOCK
+   // START:test
    @Test
    void test() {
       var stats = new StatCompiler();
@@ -27,4 +29,5 @@ class StatCompilerTest {
       assertEquals(0,
          responses.get("Relocation?").get(Boolean.FALSE).get());
    }
+   // END:test
 }
