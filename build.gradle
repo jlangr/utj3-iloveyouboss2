@@ -25,12 +25,6 @@ test {
     useJUnitPlatform()
 }
 
-sourceSets {
-    test {
-        java { srcDirs = ['src/test/java'] }
-    }
-}
-
 tasks.withType(JavaCompile) {
     options.release = 21
 }

@@ -1,19 +1,17 @@
 package iloveyouboss.domain;
 
 import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 
+import java.io.Serial;
 import java.util.*;
-
-import static java.util.Arrays.asList;
 
 @Entity
 @DiscriminatorValue(value="boolean")
 public class BooleanQuestion extends Question {
+   @Serial
    private static final long serialVersionUID = 1L;
-   @Id
-   private Long id;
 
    public BooleanQuestion() {}
    public BooleanQuestion(String text) {
@@ -21,20 +19,13 @@ public class BooleanQuestion extends Question {
    }
 
    @Override
+   @ElementCollection
    public List<String> getAnswerChoices() {
-      return asList("No", "Yes");
+      return List.of("No", "Yes");
    }
 
    @Override
    public boolean match(int expected, int actual) {
       return expected == actual;
-   }
-
-   public void setId(Long id) {
-      this.id = id;
-   }
-
-   public Long getId() {
-      return id;
    }
 }

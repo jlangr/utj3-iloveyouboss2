@@ -4,12 +4,12 @@ import org.junit.jupiter.api.Test;
 
 import static iloveyouboss.domain.Bool.FALSE;
 import static iloveyouboss.domain.Bool.TRUE;
-import static iloveyouboss.domain.Weight.Important;
+import static iloveyouboss.domain.Weight.IMPORTANT;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ProfilePoolTest {
-   ProfilePool pool = new ProfilePool();;
+   ProfilePool pool = new ProfilePool();
    Profile langrsoft = new Profile("Langrsoft");
    Profile smeltInc = new Profile("Smelt Inc.");
    BooleanQuestion tuitionReimburse = new BooleanQuestion("Tuition?");
@@ -19,12 +19,12 @@ class ProfilePoolTest {
       langrsoft.add(new Answer(tuitionReimburse, TRUE));
       pool.add(langrsoft);
 
-      pool.score(soleNeed(tuitionReimburse, TRUE, Important));
+      pool.score(soleNeed(tuitionReimburse, TRUE, IMPORTANT));
       
-      assertEquals(Important.getValue(), langrsoft.score());
+      assertEquals(IMPORTANT.getValue(), langrsoft.score());
    }
 
-   private Criteria soleNeed(Question question, int value, Weight weight) {
+   Criteria soleNeed(Question question, int value, Weight weight) {
       var criteria = new Criteria();
       criteria.add(new Criterion(new Answer(question, value), weight));
       return criteria;
@@ -37,7 +37,7 @@ class ProfilePoolTest {
       langrsoft.add(new Answer(tuitionReimburse, TRUE));
       pool.add(langrsoft);
 
-      pool.score(soleNeed(tuitionReimburse, TRUE, Important));
+      pool.score(soleNeed(tuitionReimburse, TRUE, IMPORTANT));
       var ranked = pool.ranked();
       
       assertArrayEquals(new Profile[] { langrsoft, smeltInc }, ranked.toArray());

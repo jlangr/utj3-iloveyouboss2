@@ -26,7 +26,7 @@ class ProfileTest {
    @Test
    void matchAnswersFalseWhenMustMatchCriteriaNotMet() {
       profile.add(paysBonusesNo);
-      criteria.add(new Criterion(paysBonusesYes, MustMatch));
+      criteria.add(new Criterion(paysBonusesYes, MUST_MATCH));
 
       var matches = profile.matches(criteria);
 
@@ -36,7 +36,7 @@ class ProfileTest {
    @Test
    void matchAnswersTrueForAnyDontCareCriteria() {
       profile.add(paysBonusesNo);
-      criteria.add(new Criterion(paysBonusesYes, DontCare));
+      criteria.add(new Criterion(paysBonusesYes, DONT_CARE));
 
       var matches = profile.matches(criteria);
 
@@ -47,8 +47,8 @@ class ProfileTest {
    void matchAnswersTrueWhenAnyOfMultipleCriteriaMatch() {
       profile.add(isThereReloYes);
       profile.add(paysBonusesNo);
-      criteria.add(new Criterion(isThereReloYes, Important));
-      criteria.add(new Criterion(paysBonusesYes, Important));
+      criteria.add(new Criterion(isThereReloYes, IMPORTANT));
+      criteria.add(new Criterion(paysBonusesYes, IMPORTANT));
 
       var matches = profile.matches(criteria);
 
@@ -59,8 +59,8 @@ class ProfileTest {
    void matchAnswersFalseWhenNoneOfMultipleCriteriaMatch() {
       profile.add(isThereReloNo);
       profile.add(paysBonusesNo);
-      criteria.add(new Criterion(isThereReloYes, Important));
-      criteria.add(new Criterion(paysBonusesYes, Important));
+      criteria.add(new Criterion(isThereReloYes, IMPORTANT));
+      criteria.add(new Criterion(paysBonusesYes, IMPORTANT));
 
       var matches = profile.matches(criteria);
 
@@ -70,7 +70,7 @@ class ProfileTest {
    @Test
    void scoreIsZeroWhenThereAreNoMatches() {
       profile.add(isThereReloNo);
-      criteria.add(new Criterion(isThereReloYes, Important));
+      criteria.add(new Criterion(isThereReloYes, IMPORTANT));
 
       profile.matches(criteria);
 
@@ -80,11 +80,11 @@ class ProfileTest {
    @Test
    void scoreIsCriterionValueForSingleMatch() {
       profile.add(isThereReloYes);
-      criteria.add(new Criterion(isThereReloYes, Important));
+      criteria.add(new Criterion(isThereReloYes, IMPORTANT));
 
       profile.matches(criteria);
 
-      assertEquals(Important.getValue(), profile.score());
+      assertEquals(IMPORTANT.getValue(), profile.score());
    }
 
    @Test
@@ -92,14 +92,14 @@ class ProfileTest {
       profile.add(isThereReloYes);
       profile.add(paysBonusesYes);
       profile.add(answerDaycareNo);
-      criteria.add(new Criterion(isThereReloYes, Important));
-      criteria.add(new Criterion(paysBonusesYes, WouldPrefer));
-      criteria.add(new Criterion(answerDaycareYes, VeryImportant));
+      criteria.add(new Criterion(isThereReloYes, IMPORTANT));
+      criteria.add(new Criterion(paysBonusesYes, WOULD_PREFER));
+      criteria.add(new Criterion(answerDaycareYes, VERY_IMPORTANT));
 
       profile.matches(criteria);
 
       assertEquals(
-         Important.getValue() + WouldPrefer.getValue(),
+         IMPORTANT.getValue() + WOULD_PREFER.getValue(),
          profile.score());
    }
 }

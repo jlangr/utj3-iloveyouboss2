@@ -1,9 +1,7 @@
 package iloveyouboss.domain;
 
 import org.junit.jupiter.api.Test;
-
 import java.util.*;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class StatCompilerTest {
@@ -25,8 +23,8 @@ class StatCompilerTest {
       assertEquals(1,
          responses.get("Tuition?").get(Boolean.FALSE).get());
       assertEquals(2,
-         responses.get("Relo?").get(Boolean.TRUE).get());
+         responses.get("Relocation?").get(Boolean.TRUE).get());
       assertEquals(0,
-         responses.get("Relo?").get(Boolean.FALSE).get());
+         responses.get("Relocation?").get(Boolean.FALSE).get());
    }
 }

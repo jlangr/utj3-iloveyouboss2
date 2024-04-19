@@ -1,16 +1,18 @@
 package iloveyouboss.domain;
 
 import jakarta.persistence.*;
-
 import java.io.*;
 import java.time.*;
 import java.util.*;
+
+import static java.util.stream.IntStream.range;
 
 @Entity
 @Table(name="Question")
 @Inheritance(strategy= InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="type")
 public abstract class Question implements Serializable, Persistable {
+   @Serial
    private static final long serialVersionUID = 1L;
    
    @Id
@@ -24,29 +26,24 @@ public abstract class Question implements Serializable, Persistable {
    @Column
    private Instant instant;
 
-   public Question() {}
-   public Question(String text) {
+   protected Question() {}
+   protected Question(String text) {
       this.text = text;
    }
 
-   abstract public List<String> getAnswerChoices();
-   abstract public boolean match(int expected, int actual);
+   public abstract List<String> getAnswerChoices();
+
+   public abstract boolean match(int expected, int actual);
 
    public Long getId() { return id; }
-   public void setId(Long id) { this.id = id; }
-   
+
    public String getText() { return text; }
-   public void setText(String text) { this.text = text; }
 
    @Override
    public String toString() {
-      StringBuilder s = new StringBuilder("Question #" + getId() + ": " + getText());
-      getAnswerChoices().stream().forEach((choice) -> s.append("\t" + choice));
+      var s = new StringBuilder("Question #" + getId() + ": " + getText());
+      getAnswerChoices().forEach(choice -> s.append("\t").append(choice));
       return s.toString();
-   }
-
-   public boolean match(Answer answer) {
-      return false;
    }
 
    public String getAnswerChoice(int i) {
@@ -54,10 +51,10 @@ public abstract class Question implements Serializable, Persistable {
    }
 
    public int indexOf(String matchingAnswerChoice) {
-      for (int i = 0; i < getAnswerChoices().size(); i++)
-         if (getAnswerChoice(i).equals(matchingAnswerChoice))
-            return i;
-      return -1;
+      return range(0, getAnswerChoices().size())
+         .filter(i -> getAnswerChoice(i).equals(matchingAnswerChoice))
+         .findFirst()
+         .orElse(-1);
    }
 
    @Override

@@ -1,45 +1,40 @@
 package iloveyouboss.domain;
 
-import java.util.*;
-import java.util.function.*;
-import static java.util.stream.Collectors.toList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Profile {
-   private Map<String,Answer> answers = new HashMap<>();
+   private final Map<String,Answer> answers = new HashMap<>();
    private int score;
-   private String name;
+   private final String name;
 
    public Profile(String name) {
       this.name = name;
-   }
-   
-   public String getName() {
-      return name;
    }
 
    public void add(Answer answer) {
       answers.put(answer.getQuestionText(), answer);
    }
-   
+
+   // badly coded to be subject of refactoring exercise
    public boolean matches(Criteria criteria) {
       score = 0;
       
-      boolean kill = false;
-      boolean anyMatches = false;
-      for (Criterion criterion: criteria) {
-         Answer answer = answers.get(
-               criterion.getAnswer().getQuestionText());
-         boolean match = 
-               criterion.getWeight() == Weight.DontCare ||
-               answer.match(criterion.getAnswer());
-         if (!match && criterion.getWeight() == Weight.MustMatch) {
+      var kill = false;
+      var anyMatches = false;
+      for (var criterion: criteria) {
+         var answer = answers.get(
+               criterion.answer().getQuestionText());
+         var match =
+               criterion.weight() == Weight.DONT_CARE ||
+               answer.match(criterion.answer());
+         if (!match && criterion.weight() == Weight.MUST_MATCH) {
             kill = true;
          }
          if (match) {
-            score += criterion.getWeight().getValue();
+            score += criterion.weight().getValue();
          }
          anyMatches |= match;
-         // ...
       }
       if (kill)
          return false;
@@ -53,11 +48,5 @@ public class Profile {
    @Override
    public String toString() {
      return name;
-   }
-
-   public List<Answer> find(Predicate<Answer> predicate) {
-      return answers.values().stream()
-            .filter(predicate)
-            .collect(toList());
    }
 }
