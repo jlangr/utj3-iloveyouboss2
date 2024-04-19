@@ -15,6 +15,7 @@ public class StatCompiler {
 
    private final QuestionController controller = new QuestionController();
 
+   // START:responsesByQuestion
    public Map<String, Map<Boolean, AtomicInteger>> responsesByQuestion(
          List<BooleanAnswer> answers) {
       var responses = new HashMap<Integer, Map<Boolean, AtomicInteger>>();
@@ -26,7 +27,9 @@ public class StatCompiler {
          Map<Integer, Map<Boolean, AtomicInteger>> responses) {
       var textResponses = new HashMap<String, Map<Boolean, AtomicInteger>>();
       responses.keySet().forEach(id ->
+         // START_HIGHLIGHT
          textResponses.put(controller.find(id).getText(), responses.get(id)));
+      // END_HIGHLIGHT
       return textResponses;
    }
 
@@ -47,4 +50,5 @@ public class StatCompiler {
       responses.put(id, histogram);
       return histogram;
    }
+   // END:responsesByQuestion
 }

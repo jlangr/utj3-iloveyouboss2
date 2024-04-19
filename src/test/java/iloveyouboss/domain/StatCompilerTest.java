@@ -8,7 +8,7 @@ class StatCompilerTest {
    @Test
    void test() {
       var stats = new StatCompiler();
-      List<BooleanAnswer> answers = new ArrayList<>();
+      var answers = new ArrayList<BooleanAnswer>();
       answers.add(new BooleanAnswer(1, true));
       answers.add(new BooleanAnswer(1, true));
       answers.add(new BooleanAnswer(1, true));
