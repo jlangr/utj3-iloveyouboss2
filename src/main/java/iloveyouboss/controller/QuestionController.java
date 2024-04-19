@@ -1,5 +1,6 @@
 package iloveyouboss.controller;
 
+// START:impl
 import iloveyouboss.domain.BooleanQuestion;
 import iloveyouboss.domain.PercentileQuestion;
 import iloveyouboss.domain.Persistable;
@@ -34,7 +35,8 @@ public class QuestionController {
 
    public List<Question> findWithMatchingText(String text) {
       try (var em = em()) {
-         var queryString = "select q from Question q where q.text like :searchText";
+         var queryString =
+            "select q from Question q where q.text like :searchText";
          var query = em.createQuery(queryString, Question.class);
          query.setParameter("searchText", "%" + text + "%");
          return query.getResultList();
@@ -54,8 +56,8 @@ public class QuestionController {
    }
 
    void deleteAll() {
-      executeInTransaction(
-         em -> em.createNativeQuery("delete from Question").executeUpdate());
+      executeInTransaction(em ->
+         em.createNativeQuery("delete from Question").executeUpdate());
    }
 
    private EntityManager em() {
@@ -70,7 +72,6 @@ public class QuestionController {
             func.accept(em);
             transaction.commit();
          } catch (Exception t) {
-//            t.printStackTrace();
             if (transaction.isActive()) {
                transaction.rollback();
             }
@@ -84,3 +85,5 @@ public class QuestionController {
       return object.getId();
    }
 }
+// END:impl
+
