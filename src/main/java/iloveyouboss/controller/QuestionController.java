@@ -43,7 +43,7 @@ public class QuestionController {
       }
    }
 
-   public long addPercentileQuestion(String text, String[] answerChoices) {
+   public long addPercentileQuestion(String text, String... answerChoices) {
       return persist(new PercentileQuestion(text, answerChoices));
    }
 
