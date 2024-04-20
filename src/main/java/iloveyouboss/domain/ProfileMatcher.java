@@ -20,7 +20,7 @@ public class ProfileMatcher {
       var matchSets = profiles.values().stream()
          .map(profile -> profile.getMatchSet(criteria))
          .toList();
-      for (MatchSet set: matchSets) {
+      for (var set: matchSets) {
          Runnable runnable = () -> {
             if (set.matches())
                listener.foundMatch(profiles.get(set.getProfileId()), set);
