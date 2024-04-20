@@ -1,15 +1,17 @@
 package iloveyouboss.controller;
 
 // START:test
-import java.time.*;
-import java.util.*;
-import iloveyouboss.domain.*;
+
+import iloveyouboss.domain.Question;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.List;
+
 import static java.time.Clock.fixed;
 import static java.util.Arrays.asList;
-import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AQuestionController {
@@ -63,7 +65,7 @@ class AQuestionController {
    }
 
    private List<String> extractText(List<Question> questions) {
-      return questions.stream().map(Question::getText).collect(toList());
+      return questions.stream().map(Question::getText).toList();
    }
 }
 // END:test

@@ -5,13 +5,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
-import static java.util.stream.Collectors.toList;
-
 public class Profile {
    private final String id;
    private final Map<String,Answer> answers = new HashMap<>();
    private int score;
-
    public Profile(String id) {
       this.id = id;
    }
@@ -65,7 +62,6 @@ public class Profile {
    public List<Answer> find(Predicate<Answer> pred) {
       return answers.values().stream()
          .filter(pred)
-         .collect(toList());
+         .toList();
    }
-
 }

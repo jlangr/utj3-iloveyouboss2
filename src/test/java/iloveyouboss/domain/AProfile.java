@@ -8,7 +8,6 @@ import java.util.List;
 import static iloveyouboss.domain.Bool.FALSE;
 import static iloveyouboss.domain.Bool.TRUE;
 import static iloveyouboss.domain.Weight.*;
-import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AProfile {
@@ -111,7 +110,7 @@ class AProfile {
    List<String> text(Collection<Answer> answers) {
       return answers.stream()
          .map(a -> a.question().getText())
-         .collect(toList());
+         .toList();
    }
 
    @Test

@@ -1,8 +1,8 @@
 package iloveyouboss.domain;
 
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.stream.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.Executors;
 
 // START:impl
 public class ProfileMatcher {
@@ -15,12 +15,11 @@ public class ProfileMatcher {
 
    public void findMatchingProfiles(
       Criteria criteria, MatchListener listener) {
-      ExecutorService executor =
-         Executors.newFixedThreadPool(DEFAULT_POOL_SIZE);
+      var executor = Executors.newFixedThreadPool(DEFAULT_POOL_SIZE);
 
-      List<MatchSet> matchSets = profiles.values().stream()
+      var matchSets = profiles.values().stream()
          .map(profile -> profile.getMatchSet(criteria))
-         .collect(Collectors.toList());
+         .toList();
       for (MatchSet set: matchSets) {
          Runnable runnable = () -> {
             if (set.matches())
