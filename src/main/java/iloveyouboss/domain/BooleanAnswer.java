@@ -1,4 +1,4 @@
 package iloveyouboss.domain;
 
-public record BooleanAnswer(int questionId, boolean value) {
+public record BooleanAnswer(long questionId, boolean value) {
 }
