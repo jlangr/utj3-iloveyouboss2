@@ -36,6 +36,7 @@ public abstract class Question implements Serializable, Persistable {
    public abstract boolean match(int expected, int actual);
 
    public Long getId() { return id; }
+   public void setId(Long id) { this.id = id; }
 
    public String getText() { return text; }
 

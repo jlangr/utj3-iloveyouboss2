@@ -2,13 +2,17 @@ package iloveyouboss.domain;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Collection;
+import java.util.List;
+
 import static iloveyouboss.domain.Bool.FALSE;
 import static iloveyouboss.domain.Bool.TRUE;
 import static iloveyouboss.domain.Weight.*;
+import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.*;
 
-class ProfileTest {
-   Profile profile = new Profile("Bull Hockey, Inc.");
+class AProfile {
+   Profile profile = new Profile("X");
    Criteria criteria = new Criteria();
 
    Question paysBonuses = new BooleanQuestion("Bonuses?");
@@ -101,5 +105,25 @@ class ProfileTest {
       assertEquals(
          IMPORTANT.getValue() + WOULD_PREFER.getValue(),
          profile.score());
+   }
+
+
+   List<String> text(Collection<Answer> answers) {
+      return answers.stream()
+         .map(a -> a.question().getText())
+         .collect(toList());
+   }
+
+   @Test
+   void findsAnswersBasedOnPredicate() {
+      var choices = new String[] {"a", "b"};
+      profile.add(new Answer(new BooleanQuestion("1"), FALSE));
+      profile.add(new Answer(new PercentileQuestion("2", choices), 0));
+      profile.add(new Answer(new PercentileQuestion("3", choices), 0));
+
+      var answers =
+         profile.find(a -> a.question().getClass() == PercentileQuestion.class);
+
+      assertEquals(List.of("2", "3"), text(answers));
    }
 }

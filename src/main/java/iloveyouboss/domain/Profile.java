@@ -1,15 +1,23 @@
 package iloveyouboss.domain;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
+
+import static java.util.stream.Collectors.toList;
 
 public class Profile {
+   private final String id;
    private final Map<String,Answer> answers = new HashMap<>();
    private int score;
-   private final String name;
 
-   public Profile(String name) {
-      this.name = name;
+   public Profile(String id) {
+      this.id = id;
+   }
+
+   public String getId() {
+      return id;
    }
 
    public void add(Answer answer) {
@@ -41,12 +49,23 @@ public class Profile {
       return anyMatches;
    }
 
+   public MatchSet getMatchSet(Criteria criteria) {
+      return new MatchSet(id, answers, criteria);
+   }
+
    public int score() {
       return score;
    }
 
    @Override
    public String toString() {
-     return name;
+     return id;
    }
+
+   public List<Answer> find(Predicate<Answer> pred) {
+      return answers.values().stream()
+         .filter(pred)
+         .collect(toList());
+   }
+
 }

@@ -8,7 +8,7 @@ import static iloveyouboss.domain.Weight.IMPORTANT;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class ProfilePoolTest {
+class AProfilePool {
    ProfilePool pool = new ProfilePool();
    Profile langrsoft = new Profile("Langrsoft");
    Profile smeltInc = new Profile("Smelt Inc.");
