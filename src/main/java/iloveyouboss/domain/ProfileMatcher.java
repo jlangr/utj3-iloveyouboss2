@@ -20,7 +20,7 @@ public class ProfileMatcher {
       profiles.values().stream()
          .parallel()
          .forEach(profile -> {
-            var set = profile.createMatchSet(criteria)
+            var set = profile.createMatchSet(criteria);
             if (set.matches())
                listener.foundMatch(profile, set);
          });

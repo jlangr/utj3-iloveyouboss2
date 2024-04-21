@@ -13,8 +13,8 @@ public class ProfilePool {
       profiles.forEach(profile -> profile.matches(criteria));
    }
 
-   public List<Profile> ranked() {
-      profiles.sort((p1, p2) -> -1 * Integer.compare(p1.score(), p2.score()));
+   public List<Profile> ranked(Criteria criteria) {
+      profiles.sort((p1, p2) -> -1 * Integer.compare(p1.score(criteria), p2.score(criteria)));
       return profiles;
    }
 }

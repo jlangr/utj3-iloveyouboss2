@@ -24,40 +24,33 @@ public class MatchSet implements Comparable<MatchSet> {
    }
 
    private void calculateScore() {
-      score = 0;
-      for (Criterion criterion : criteria)
-         if (criterion.matches(answerMatching(criterion)))
-            score += criterion.weight().getValue();
+      score = criteria.stream()
+         .filter(criterion -> criterion.matches(profileAnswerFor(criterion)))
+         .map(criterion -> criterion.weight().getValue())
+         .reduce(0, Integer::sum);
    }
 
-   private Answer answerMatching(Criterion criterion) {
+   private Answer profileAnswerFor(Criterion criterion) {
       return answers.get(criterion.answer().getQuestionText());
    }
 
    public boolean matches() {
-      try {
-         Thread.sleep(1000);
-      } catch (InterruptedException e) {
-      }
-      if (doesNotMeetAnyMustMatchCriterion())
-         return false;
-      return anyMatches();
+//      try {
+//         Thread.sleep(1000);
+//      } catch (InterruptedException e) {
+//      }
+      return meetsAllRequiredCriterion() && anyMatches();
    }
 
-   private boolean doesNotMeetAnyMustMatchCriterion() {
-      for (Criterion criterion : criteria) {
-         boolean match = criterion.matches(answerMatching(criterion));
-         if (!match && criterion.weight() == Weight.MUST_MATCH)
-            return true;
-      }
-      return false;
+   private boolean meetsAllRequiredCriterion() {
+      return criteria.stream()
+         .filter(criterion -> criterion.weight() == Weight.REQUIRED)
+         .allMatch(criterion -> criterion.matches(profileAnswerFor(criterion)));
    }
 
    private boolean anyMatches() {
-      var anyMatches = false;
-      for (var criterion : criteria)
-         anyMatches |= criterion.matches(answerMatching(criterion));
-      return anyMatches;
+      return criteria.stream()
+         .anyMatch(criterion -> criterion.matches(profileAnswerFor(criterion)));
    }
 
    @Override

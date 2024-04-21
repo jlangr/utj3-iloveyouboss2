@@ -29,7 +29,7 @@ class AProfile {
    @Test
    void matchAnswersFalseWhenMustMatchCriteriaNotMet() {
       profile.add(paysBonusesNo);
-      criteria.add(new Criterion(paysBonusesYes, MUST_MATCH));
+      criteria.add(new Criterion(paysBonusesYes, REQUIRED));
 
       var matches = profile.matches(criteria);
 
@@ -75,9 +75,9 @@ class AProfile {
       profile.add(isThereReloNo);
       criteria.add(new Criterion(isThereReloYes, IMPORTANT));
 
-      profile.matches(criteria);
+      var score = profile.score(criteria);
 
-      assertEquals(0, profile.score());
+      assertEquals(0, score);
    }
 
    @Test
@@ -85,9 +85,9 @@ class AProfile {
       profile.add(isThereReloYes);
       criteria.add(new Criterion(isThereReloYes, IMPORTANT));
 
-      profile.matches(criteria);
+      var score = profile.score(criteria);
 
-      assertEquals(IMPORTANT.getValue(), profile.score());
+      assertEquals(IMPORTANT.getValue(), score);
    }
 
    @Test
@@ -99,11 +99,11 @@ class AProfile {
       criteria.add(new Criterion(paysBonusesYes, WOULD_PREFER));
       criteria.add(new Criterion(answerDaycareYes, VERY_IMPORTANT));
 
-      profile.matches(criteria);
+      var score = profile.score(criteria);
 
       assertEquals(
          IMPORTANT.getValue() + WOULD_PREFER.getValue(),
-         profile.score());
+         score);
    }
 
 

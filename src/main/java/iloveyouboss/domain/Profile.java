@@ -9,6 +9,7 @@ public class Profile {
    private final String id;
    private final Map<String,Answer> answers = new HashMap<>();
    private int score;
+
    public Profile(String id) {
       this.id = id;
    }
@@ -21,37 +22,19 @@ public class Profile {
       answers.put(answer.getQuestionText(), answer);
    }
 
-   // badly coded to be subject of refactoring exercise
    public boolean matches(Criteria criteria) {
-      score = 0;
-      
-      var kill = false;
-      var anyMatches = false;
-      for (var criterion: criteria) {
-         var answer = answers.get(
-               criterion.answer().getQuestionText());
-         var match =
-               criterion.weight() == Weight.DONT_CARE ||
-               answer.match(criterion.answer());
-         if (!match && criterion.weight() == Weight.MUST_MATCH) {
-            kill = true;
-         }
-         if (match) {
-            score += criterion.weight().getValue();
-         }
-         anyMatches |= match;
-      }
-      if (kill)
-         return false;
-      return anyMatches;
+      var matchSet = createMatchSet(criteria);
+      score = matchSet.getScore();
+      return matchSet.matches();
+   }
+
+   public int score(Criteria criteria) {
+      var matchSet = createMatchSet(criteria);
+      return matchSet.getScore();
    }
 
    public MatchSet createMatchSet(Criteria criteria) {
       return new MatchSet(id, answers, criteria);
-   }
-
-   public int score() {
-      return score;
    }
 
    @Override

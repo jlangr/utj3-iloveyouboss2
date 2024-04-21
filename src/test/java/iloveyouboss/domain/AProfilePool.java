@@ -18,10 +18,11 @@ class AProfilePool {
    void scoresProfileInPool() {
       langrsoft.add(new Answer(tuitionReimburse, TRUE));
       pool.add(langrsoft);
+      var criteria = soleNeed(tuitionReimburse, TRUE, IMPORTANT);
 
-      pool.score(soleNeed(tuitionReimburse, TRUE, IMPORTANT));
+      pool.score(criteria);
       
-      assertEquals(IMPORTANT.getValue(), langrsoft.score());
+      assertEquals(IMPORTANT.getValue(), langrsoft.score(criteria));
    }
 
    Criteria soleNeed(Question question, int value, Weight weight) {
@@ -36,9 +37,10 @@ class AProfilePool {
       pool.add(smeltInc);
       langrsoft.add(new Answer(tuitionReimburse, TRUE));
       pool.add(langrsoft);
+      var criteria = soleNeed(tuitionReimburse, TRUE, IMPORTANT);
 
-      pool.score(soleNeed(tuitionReimburse, TRUE, IMPORTANT));
-      var ranked = pool.ranked();
+      pool.score(criteria);
+      var ranked = pool.ranked(criteria);
       
       assertArrayEquals(new Profile[] { langrsoft, smeltInc }, ranked.toArray());
    }

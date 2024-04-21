@@ -37,7 +37,7 @@ public class AMatchSet {
    @Test
    public void matchAnswersFalseWhenMustMatchCriteriaNotMet() {
       add(bonusesNo);
-      criteria.add(new Criterion(bonusesYes, MUST_MATCH));
+      criteria.add(new Criterion(bonusesYes, REQUIRED));
 
       var matches = createMatchSet().matches();
 
