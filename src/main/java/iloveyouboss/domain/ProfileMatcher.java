@@ -15,19 +15,24 @@ public class ProfileMatcher {
 
    public void findMatchingProfiles(
       Criteria criteria, MatchListener listener) {
-      var executor = Executors.newFixedThreadPool(DEFAULT_POOL_SIZE);
+//      var executor = Executors.newFixedThreadPool(DEFAULT_POOL_SIZE);
 
-      var matchSets = profiles.values().stream()
-         .map(profile -> profile.getMatchSet(criteria))
-         .toList();
-      for (var set: matchSets) {
-         Runnable runnable = () -> {
+      profiles.values().stream()
+         .parallel()
+         .forEach(profile -> {
+            var set = profile.createMatchSet(criteria)
             if (set.matches())
-               listener.foundMatch(profiles.get(set.getProfileId()), set);
-         };
-         executor.execute(runnable);
-      }
-      executor.shutdown();
+               listener.foundMatch(profile, set);
+         });
+
+//      for (var set: matchSets) {
+//         Runnable runnable = () -> {
+//            if (set.matches())
+//               listener.foundMatch(profiles.get(set.getProfileId()), set);
+//         };
+//         executor.execute(runnable);
+//      }
+//      executor.shutdown();
    }
 }
 // END:impl

@@ -46,7 +46,7 @@ public class Profile {
       return anyMatches;
    }
 
-   public MatchSet getMatchSet(Criteria criteria) {
+   public MatchSet createMatchSet(Criteria criteria) {
       return new MatchSet(id, answers, criteria);
    }
 
