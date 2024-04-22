@@ -24,7 +24,6 @@ public class Profile {
 
    public boolean matches(Criteria criteria) {
       var matchSet = createMatchSet(criteria);
-      score = matchSet.getScore();
       return matchSet.matches();
    }
 

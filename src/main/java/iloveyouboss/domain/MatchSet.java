@@ -23,9 +23,10 @@ public class MatchSet implements Comparable<MatchSet> {
       return score;
    }
 
+   // TODO update tests
    private void calculateScore() {
       score = criteria.stream()
-         .filter(criterion -> criterion.matches(profileAnswerFor(criterion)))
+         .filter(criterion -> criterion.matches(profileAnswerFor(criterion)) && criterion.weight() != Weight.REQUIRED)
          .map(criterion -> criterion.weight().getValue())
          .reduce(0, Integer::sum);
    }

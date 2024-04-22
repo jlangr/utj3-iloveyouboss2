@@ -1,11 +1,11 @@
 package iloveyouboss.domain;
 
 public enum Weight {
-   REQUIRED(Integer.MAX_VALUE),
+   REQUIRED(0),
    VERY_IMPORTANT(5000),
    IMPORTANT(1000),
    WOULD_PREFER(100),
-   DONT_CARE(0);
+   DONT_CARE(1);
    
    private final int value;
 
