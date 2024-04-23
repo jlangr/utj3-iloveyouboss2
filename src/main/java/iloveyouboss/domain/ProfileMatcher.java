@@ -14,24 +14,6 @@ public class ProfileMatcher {
    ExecutorService executorService =
       Executors.newFixedThreadPool(16);
 
-   public Map<Profile, Integer> betterscoreProfiles(Criteria criteria)
-      throws ExecutionException, InterruptedException {
-      var futures = new ArrayList<Future<Map<Profile, Integer>>>();
-      for (var profile : profiles) {
-         var future = executorService.submit(() ->
-            Map.of(profile,
-                   profile.matches(criteria) ? profile.score(criteria) : 0));
-         futures.add(future);
-      }
-
-      var finalScores = new HashMap<Profile, Integer>();
-      for (var future: futures)
-         finalScores.putAll(future.get());
-
-      executorService.shutdown();
-      return finalScores;
-   }
-
    // START:impl
    public Map<Profile, Integer> scoreProfiles(Criteria criteria)
       throws ExecutionException, InterruptedException {
@@ -54,6 +36,5 @@ public class ProfileMatcher {
       executorService.shutdown();
       return profiles;
    }
-   // START:impl
+   // END:impl
 }
-// END:impl
