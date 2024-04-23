@@ -31,7 +31,7 @@ class AProfileMatcher {
                questions, id, i -> matchingAnswer(questions.get(i)))));
       var criteria = createCriteria(questions);
 
-      var results = matcher.badScoreProfiles(criteria);
+      var results = matcher.scoreProfiles(criteria);
 
       assertEquals(250,
          results.values().stream().filter(score -> score == 0).count());

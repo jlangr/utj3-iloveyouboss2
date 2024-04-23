@@ -1,9 +1,9 @@
 package iloveyouboss.domain;
 
+// START:impl
 import java.util.*;
 import java.util.concurrent.*;
 
-// START:impl
 public class ProfileMatcher {
    private List<Profile> profiles = new ArrayList<>();
 
@@ -16,30 +16,12 @@ public class ProfileMatcher {
 
    public Map<Profile, Integer> scoreProfiles(Criteria criteria)
       throws ExecutionException, InterruptedException {
-      var futures = new ArrayList<Future<Map<Profile, Integer>>>();
-      for (var profile : profiles) {
-         var future = executorService.submit(() -> {
-            if (!profile.matches(criteria)) return Map.of(profile, 0);
-            return Map.of(profile, profile.score(criteria));
-         });
-         futures.add(future);
-      }
-
-      var finalScores = new HashMap<Profile, Integer>();
-      for (var future: futures)
-         finalScores.putAll(future.get());
-
-      executorService.shutdown();
-      return finalScores;
-   }
-
-   public Map<Profile, Integer> badScoreProfiles(Criteria criteria)
-      throws ExecutionException, InterruptedException {
-//      var profiles = Collections.synchronizedMap(new HashMap<Profile, Integer>());
+      // START_HIGHLIGHT
       var profiles = new HashMap<Profile, Integer>();
+      // END_HIGHLIGHT
 
       var futures = new ArrayList<Future<Void>>();
-      for (var profile : this.profiles) {
+      for (var profile: this.profiles) {
          futures.add(executorService.submit(() -> {
             if (!profile.matches(criteria)) profiles.put(profile, 0);
             profiles.put(profile, profile.score(criteria));
