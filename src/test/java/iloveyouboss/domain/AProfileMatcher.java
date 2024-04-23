@@ -1,5 +1,6 @@
 package iloveyouboss.domain;
 
+// START:test
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -72,4 +73,4 @@ class AProfileMatcher {
       return new Answer(question, Bool.FALSE);
    }
 }
-
+// END:test
