@@ -11,7 +11,7 @@ public class ProfileMatcher {
    }
 
    ExecutorService executorService =
-      Executors.newFixedThreadPool(16);
+      Executors.newFixedThreadPool(8);
 
    // START:impl
    public Map<Profile, Integer> scoreProfiles(Criteria criteria)
