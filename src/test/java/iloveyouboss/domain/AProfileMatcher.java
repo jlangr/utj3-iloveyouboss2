@@ -34,9 +34,9 @@ class AProfileMatcher {
 
       var results = matcher.scoreProfiles(criteria);
 
-      assertEquals(250,
+      assertEquals(halfCount,
          results.values().stream().filter(score -> score == 0).count());
-      assertEquals(250,
+      assertEquals(halfCount,
          results.values().stream().filter(score -> score > 0).count());
    }
 
