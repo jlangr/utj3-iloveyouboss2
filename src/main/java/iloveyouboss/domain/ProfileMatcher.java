@@ -18,7 +18,8 @@ public class ProfileMatcher {
    public Map<Profile, Integer> scoreProfiles(Criteria criteria)
       throws ExecutionException, InterruptedException {
       // START_HIGHLIGHT
-      var profiles = Collections.synchronizedMap(new HashMap<Profile, Integer>());
+      var profiles =
+         Collections.synchronizedMap(new HashMap<Profile, Integer>());
       // END_HIGHLIGHT
 
       var futures = new ArrayList<Future<Void>>();
