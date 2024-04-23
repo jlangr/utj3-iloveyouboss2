@@ -18,10 +18,9 @@ public class ProfileMatcher {
       throws ExecutionException, InterruptedException {
       var futures = new ArrayList<Future<Map<Profile, Integer>>>();
       for (var profile : profiles) {
-         var future = executorService.submit(() -> {
-            if (!profile.matches(criteria)) return Map.of(profile, 0);
-            return Map.of(profile, profile.score(criteria));
-         });
+         var future = executorService.submit(() ->
+            Map.of(profile,
+                   profile.matches(criteria) ? profile.score(criteria) : 0));
          futures.add(future);
       }
 
