@@ -53,17 +53,5 @@ public class ProfileMatcher {
       executorService.shutdown();
       return profiles;
    }
-
-   public void findMatchingProfiles(
-      Criteria criteria, MatchListener listener) {
-      profiles.stream()
-         .parallel()
-         .forEach(profile -> {
-            var set = profile.createMatchSet(criteria);
-            if (set.matches()) {
-//               listener.foundMatch(profile, set);
-            }
-         });
-   }
 }
 // END:impl

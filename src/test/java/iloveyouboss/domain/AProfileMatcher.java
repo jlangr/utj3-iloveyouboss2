@@ -4,57 +4,57 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.*;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Stream;
+import java.util.function.Function;
 
 import static iloveyouboss.domain.Weight.REQUIRED;
 import static java.util.stream.IntStream.range;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(MockitoExtension.class)
 class AProfileMatcher {
    ProfileMatcher matcher = new ProfileMatcher();
-   Random random = new Random();
 
    @Test
-   void returnsScoreForAllProfiles() throws ExecutionException, InterruptedException {
+   void returnsScoreForAllProfiles()
+         throws ExecutionException, InterruptedException {
       var questions = createQuestions(50);
-      var profileCount = 500;
-      var profiles = createProfiles(profileCount, questions);
-      profiles.forEach(profile -> matcher.addProfile(profile));
+      int halfCount = 250;
+      range(0, halfCount)
+         .forEach(id ->
+            matcher.addProfile(createProfile(
+               questions, id, i -> nonMatchingAnswer(questions.get(i)))));
+      range(halfCount, 2 * halfCount)
+         .forEach(id ->
+            matcher.addProfile(createProfile(
+               questions, id, i -> matchingAnswer(questions.get(i)))));
       var criteria = createCriteria(questions);
 
       var results = matcher.badScoreProfiles(criteria);
 
-      assertEquals(profileCount, results.size());
-      assertTrue(results.values().stream().anyMatch(s -> s.intValue() > 0));
-      assertTrue(results.values().stream().anyMatch(s -> s.intValue() == 0));
+      assertEquals(250,
+         results.values().stream().filter(score -> score == 0).count());
+      assertEquals(250,
+         results.values().stream().filter(score -> score > 0).count());
    }
 
-   private Stream<Profile> createProfiles(
-      int profileCount, List<BooleanQuestion> questions) {
-      var questionCount = questions.size();
-      var profiles = range(0, profileCount)
-         .mapToObj(profileId -> {
-            var profile = new Profile(String.valueOf(profileId));
-            range(0, questionCount).forEach(i -> {
-               var question = questions.get(i);
-               profile.add(randomAnswer(question));
-            });
-            return profile;
-         });
-      return profiles;
+   private Profile createProfile(
+      List<BooleanQuestion> questions, int id, Function<Integer, Answer> answerFunction) {
+      var profile = new Profile(String.valueOf(id));
+      range(0, questions.size()).forEach(i -> profile.add(answerFunction.apply(i)));
+      return profile;
    }
 
    private Criteria createCriteria(List<BooleanQuestion> questions) {
       var questionCount = questions.size();
       var criteria = new Criteria();
-      criteria.add(new Criterion(matchingAnswer(questions.get(0)), REQUIRED));
-      range(1, questionCount).forEach(i ->
+      range(0, 5).forEach(i ->
          criteria.add(new Criterion(
-            matchingAnswer(questions.get(i)), randomWeightNotRequired())));
+            matchingAnswer(questions.get(i)), REQUIRED)));
+      range(5, questionCount).forEach(i ->
+         criteria.add(new Criterion(
+            matchingAnswer(questions.get(i)), Weight.WOULD_PREFER)));
       return criteria;
    }
 
@@ -62,16 +62,6 @@ class AProfileMatcher {
       return range(0, questionCount)
          .mapToObj(i -> new BooleanQuestion("question " + i))
          .toList();
-   }
-
-   private Answer randomAnswer(BooleanQuestion question) {
-      return random.nextBoolean()
-         ? matchingAnswer(question)
-         : nonMatchingAnswer(question);
-   }
-
-   public Weight randomWeightNotRequired() {
-      return Weight.values()[random.nextInt(Weight.values().length - 1) + 1];
    }
 
    Answer matchingAnswer(Question question) {
