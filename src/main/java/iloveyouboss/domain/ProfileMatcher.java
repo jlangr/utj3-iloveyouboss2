@@ -1,9 +1,6 @@
 package iloveyouboss.domain;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.*;
 
 // START:impl
@@ -16,7 +13,6 @@ public class ProfileMatcher {
 
    ExecutorService executorService =
       Executors.newFixedThreadPool(16);
-//      Executors.newSingleThreadExecutor();
 
    public Map<Profile, Integer> scoreProfiles(Criteria criteria)
       throws ExecutionException, InterruptedException {
@@ -30,12 +26,32 @@ public class ProfileMatcher {
       }
 
       var finalScores = new HashMap<Profile, Integer>();
-      for (var future: futures) {
+      for (var future: futures)
          finalScores.putAll(future.get());
-      }
 
       executorService.shutdown();
       return finalScores;
+   }
+
+   public Map<Profile, Integer> badScoreProfiles(Criteria criteria)
+      throws ExecutionException, InterruptedException {
+//      var profiles = Collections.synchronizedMap(new HashMap<Profile, Integer>());
+      var profiles = new HashMap<Profile, Integer>();
+
+      var futures = new ArrayList<Future<Void>>();
+      for (var profile : this.profiles) {
+         futures.add(executorService.submit(() -> {
+            if (!profile.matches(criteria)) profiles.put(profile, 0);
+            profiles.put(profile, profile.score(criteria));
+            return null;
+         }));
+      }
+
+      for (var future: futures)
+         future.get();
+
+      executorService.shutdown();
+      return profiles;
    }
 
    public void findMatchingProfiles(
@@ -44,8 +60,9 @@ public class ProfileMatcher {
          .parallel()
          .forEach(profile -> {
             var set = profile.createMatchSet(criteria);
-            if (set.matches())
-               listener.foundMatch(profile, set);
+            if (set.matches()) {
+//               listener.foundMatch(profile, set);
+            }
          });
    }
 }
