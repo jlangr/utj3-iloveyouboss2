@@ -12,7 +12,7 @@ public class ProfileMatcher {
    }
 
    ExecutorService executorService =
-      Executors.newFixedThreadPool(16);
+      Executors.newFixedThreadPool(8);
 
    public Map<Profile, Integer> scoreProfiles(Criteria criteria)
       throws ExecutionException, InterruptedException {
@@ -23,8 +23,8 @@ public class ProfileMatcher {
       var futures = new ArrayList<Future<Void>>();
       for (var profile: this.profiles) {
          futures.add(executorService.submit(() -> {
-            if (!profile.matches(criteria)) profiles.put(profile, 0);
-            profiles.put(profile, profile.score(criteria));
+            profiles.put(profile,
+               profile.matches(criteria) ? profile.score(criteria) : 0);
             return null;
          }));
       }
