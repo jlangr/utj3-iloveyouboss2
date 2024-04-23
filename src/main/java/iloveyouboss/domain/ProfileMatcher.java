@@ -41,10 +41,10 @@ public class ProfileMatcher {
       // END_HIGHLIGHT
 
       var futures = new ArrayList<Future<Void>>();
-      for (var profile : this.profiles) {
+      for (var profile: this.profiles) {
          futures.add(executorService.submit(() -> {
-            if (!profile.matches(criteria)) profiles.put(profile, 0);
-            profiles.put(profile, profile.score(criteria));
+            profiles.put(profile,
+               profile.matches(criteria) ? profile.score(criteria) : 0);
             return null;
          }));
       }
