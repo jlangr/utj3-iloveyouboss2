@@ -21,12 +21,13 @@ class AProfileMatcher {
    void returnsScoreForAllProfiles()
          throws ExecutionException, InterruptedException {
       var questions = createQuestions(50);
-      int halfCount = 250;
-      range(0, halfCount)
+      int profileCount = 500;
+      var half = profileCount / 2;
+      range(0, half)
          .forEach(id ->
             matcher.addProfile(createProfile(
                questions, id, i -> nonMatchingAnswer(questions.get(i)))));
-      range(halfCount, 2 * halfCount)
+      range(half, profileCount)
          .forEach(id ->
             matcher.addProfile(createProfile(
                questions, id, i -> matchingAnswer(questions.get(i)))));
@@ -34,9 +35,9 @@ class AProfileMatcher {
 
       var results = matcher.scoreProfiles(criteria);
 
-      assertEquals(halfCount,
+      assertEquals(half,
          results.values().stream().filter(score -> score == 0).count());
-      assertEquals(halfCount,
+      assertEquals(half,
          results.values().stream().filter(score -> score > 0).count());
    }
 
