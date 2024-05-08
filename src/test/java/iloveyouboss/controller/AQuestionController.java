@@ -3,6 +3,7 @@ package iloveyouboss.controller;
 // START:test
 
 import iloveyouboss.domain.Question;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +19,12 @@ class AQuestionController {
    QuestionController controller = new QuestionController();
 
    @BeforeEach
-   void create() {
+   void setUp() {
+      controller.deleteAll();
+   }
+
+   @AfterEach
+   void tearDown() {
       controller.deleteAll();
    }
 
