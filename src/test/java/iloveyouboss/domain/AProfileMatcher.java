@@ -6,7 +6,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 import java.util.function.Function;
 
 import static iloveyouboss.domain.Weight.REQUIRED;
@@ -18,19 +17,16 @@ class AProfileMatcher {
    ProfileMatcher matcher = new ProfileMatcher();
 
    @Test
-   void returnsScoreForAllProfiles()
-         throws ExecutionException, InterruptedException {
+   void returnsScoreForAllProfiles() throws Exception {
       var questions = createQuestions(50);
       int profileCount = 500;
       var half = profileCount / 2;
-      range(0, half)
-         .forEach(id ->
-            matcher.addProfile(createProfile(
-               questions, id, i -> nonMatchingAnswer(questions.get(i)))));
-      range(half, profileCount)
-         .forEach(id ->
-            matcher.addProfile(createProfile(
-               questions, id, i -> matchingAnswer(questions.get(i)))));
+      range(0, half).forEach(id ->
+          matcher.addProfile(createProfile(
+              questions, id, i -> nonMatchingAnswer(questions.get(i)))));
+      range(half, profileCount).forEach(id ->
+          matcher.addProfile(createProfile(
+              questions, id, i -> matchingAnswer(questions.get(i)))));
       var criteria = createCriteria(questions);
 
       var results = matcher.scoreProfiles(criteria);
@@ -42,9 +38,12 @@ class AProfileMatcher {
    }
 
    private Profile createProfile(
-      List<BooleanQuestion> questions, int id, Function<Integer, Answer> answerFunction) {
+       List<BooleanQuestion> questions,
+       int id,
+       Function<Integer, Answer> answerFunction) {
       var profile = new Profile(String.valueOf(id));
-      range(0, questions.size()).forEach(i -> profile.add(answerFunction.apply(i)));
+      range(0, questions.size()).forEach(i ->
+          profile.add(answerFunction.apply(i)));
       return profile;
    }
 
