@@ -1,4 +1,4 @@
-package iloveyouboss.controller;
+package iloveyouboss.persistence;
 
 // START:test
 
@@ -15,8 +15,8 @@ import static java.time.Clock.fixed;
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class AQuestionController {
-   QuestionController controller = new QuestionController();
+class AQuestionRepository {
+   QuestionRepository controller = new QuestionRepository();
 
    @BeforeEach
    void setUp() {
@@ -38,7 +38,7 @@ class AQuestionController {
    }
    
    @Test
-   void questionAnswersDateAdded() {
+   void storesDateAddedForPersistedQuestion() {
       var now = new Date().toInstant();
       controller.setClock(fixed(now, ZoneId.systemDefault()));
       var id = controller.addBooleanQuestion("text");

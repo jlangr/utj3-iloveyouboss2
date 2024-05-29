@@ -1,6 +1,6 @@
 package iloveyouboss.domain;
 
-import iloveyouboss.controller.QuestionController;
+import iloveyouboss.persistence.QuestionRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -18,7 +18,7 @@ class AStatCompiler {
    StatCompiler stats = new StatCompiler();
 
    @Mock
-   QuestionController controller;
+   QuestionRepository controller;
    Question q1Tuition = new BooleanQuestion("Tuition?");
    Question q2Relocation = new BooleanQuestion("Relocation?");
 

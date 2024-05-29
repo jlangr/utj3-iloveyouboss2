@@ -1,12 +1,12 @@
 package iloveyouboss.domain;
 
 // START:responsesByQuestion
-import iloveyouboss.controller.QuestionController;
+import iloveyouboss.persistence.QuestionRepository;
 import java.util.*;
 import java.util.concurrent.atomic.*;
 
 public class StatCompiler {
-   private QuestionController controller;
+   private QuestionRepository controller;
 
    public Map<String, Map<Boolean, AtomicLong>> responsesByQuestion(
          List<BooleanAnswer> answers) {
