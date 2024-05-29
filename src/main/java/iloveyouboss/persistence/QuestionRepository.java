@@ -1,4 +1,4 @@
-package iloveyouboss.controller;
+package iloveyouboss.persistence;
 
 // START:impl
 import iloveyouboss.domain.BooleanQuestion;
@@ -13,7 +13,7 @@ import java.time.Clock;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class QuestionController {
+public class QuestionRepository {
    private Clock clock = Clock.systemUTC();
 
    private static EntityManagerFactory getEntityManagerFactory() {
