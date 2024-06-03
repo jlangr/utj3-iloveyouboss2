@@ -72,9 +72,7 @@ public class QuestionRepository {
             func.accept(em);
             transaction.commit();
          } catch (Exception t) {
-            if (transaction.isActive()) {
-               transaction.rollback();
-            }
+            if (transaction.isActive()) transaction.rollback();
          }
       }
    }
