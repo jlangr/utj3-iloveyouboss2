@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import static iloveyouboss.domain.Weight.REQUIRED;
+import static iloveyouboss.domain.Weight.WOULD_PREFER;
 import static java.util.stream.IntStream.range;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -55,7 +56,7 @@ class AProfileMatcher {
             matchingAnswer(questions.get(i)), REQUIRED)));
       range(5, questionCount).forEach(i ->
          criteria.add(new Criterion(
-            matchingAnswer(questions.get(i)), Weight.WOULD_PREFER)));
+            matchingAnswer(questions.get(i)), WOULD_PREFER)));
       return criteria;
    }
 
