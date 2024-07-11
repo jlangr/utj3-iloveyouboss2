@@ -6,7 +6,7 @@ import java.util.*;
 import java.util.concurrent.atomic.*;
 
 public class StatCompiler {
-   private QuestionRepository controller;
+   private QuestionRepository repository;
 
    public Map<String, Map<Boolean, AtomicLong>> responsesByQuestion(
          List<BooleanAnswer> answers) {
@@ -27,7 +27,7 @@ public class StatCompiler {
       var textResponses = new HashMap<String, Map<Boolean, AtomicLong>>();
       responses.keySet().forEach(id ->
          // START_HIGHLIGHT
-         textResponses.put(controller.find(id).getText(), responses.get(id)));
+         textResponses.put(repository.find(id).getText(), responses.get(id)));
       // END_HIGHLIGHT
       return textResponses;
    }

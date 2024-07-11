@@ -18,14 +18,14 @@ class AStatCompiler {
    StatCompiler stats = new StatCompiler();
 
    @Mock
-   QuestionRepository controller;
+   QuestionRepository repository;
    Question q1Tuition = new BooleanQuestion("Tuition?");
    Question q2Relocation = new BooleanQuestion("Relocation?");
 
    @Test
    void createsHistogramOfResponsesByQuestion() {
-      when(controller.find(1L)).thenReturn(q1Tuition);
-      when(controller.find(2L)).thenReturn(q2Relocation);
+      when(repository.find(1L)).thenReturn(q1Tuition);
+      when(repository.find(2L)).thenReturn(q2Relocation);
       var answers = List.of(
          new BooleanAnswer(1, true),
          new BooleanAnswer(1, true),
