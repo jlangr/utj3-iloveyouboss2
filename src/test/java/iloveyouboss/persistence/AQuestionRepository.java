@@ -16,23 +16,23 @@ import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AQuestionRepository {
-   QuestionRepository controller = new QuestionRepository();
+   QuestionRepository repository = new QuestionRepository();
 
    @BeforeEach
    void setUp() {
-      controller.deleteAll();
+      repository.deleteAll();
    }
 
    @AfterEach
    void tearDown() {
-      controller.deleteAll();
+      repository.deleteAll();
    }
 
    @Test
    void findsPersistedQuestionById() {
-      var id = controller.addBooleanQuestion("question text");
+      var id = repository.addBooleanQuestion("question text");
       
-      var question = controller.find(id);
+      var question = repository.find(id);
       
       assertEquals("question text", question.getText());
    }
@@ -40,32 +40,32 @@ class AQuestionRepository {
    @Test
    void storesDateAddedForPersistedQuestion() {
       var now = new Date().toInstant();
-      controller.setClock(fixed(now, ZoneId.systemDefault()));
-      var id = controller.addBooleanQuestion("text");
+      repository.setClock(fixed(now, ZoneId.systemDefault()));
+      var id = repository.addBooleanQuestion("text");
       
-      var question = controller.find(id);
+      var question = repository.find(id);
       
       assertEquals(now, question.getCreateTimestamp());
    }
    
    @Test
    void answersMultiplePersistedQuestions() {
-      controller.addBooleanQuestion("q1");
-      controller.addBooleanQuestion("q2");
-      controller.addPercentileQuestion("q3", "a1", "a2");
+      repository.addBooleanQuestion("q1");
+      repository.addBooleanQuestion("q2");
+      repository.addPercentileQuestion("q3", "a1", "a2");
       
-      var questions = controller.getAll();
+      var questions = repository.getAll();
       
       assertEquals(asList("q1", "q2", "q3"), extractText(questions));
    }
 
    @Test
    void findsMatchingEntries() {
-      controller.addBooleanQuestion("alpha 1");
-      controller.addBooleanQuestion("alpha 2");
-      controller.addBooleanQuestion("beta 1");
+      repository.addBooleanQuestion("alpha 1");
+      repository.addBooleanQuestion("alpha 2");
+      repository.addBooleanQuestion("beta 1");
 
-      var questions = controller.findWithMatchingText("alpha");
+      var questions = repository.findWithMatchingText("alpha");
       
       assertEquals(asList("alpha 1", "alpha 2"), extractText(questions));
    }
