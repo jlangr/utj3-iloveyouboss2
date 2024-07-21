@@ -10,16 +10,16 @@ dependencies {
     testImplementation(platform('org.junit:junit-bom:5.9.3'))
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testImplementation 'org.junit.jupiter:junit-jupiter'
-
     testImplementation group: 'org.mockito', name: 'mockito-core', version: '5.11.0'
     testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '5.11.0'
-
     testImplementation 'org.assertj:assertj-core:3.25.1'
+    testImplementation 'net.jqwik:jqwik:1.9.0'
+    testImplementation 'com.code-intelligence:jazzer:0.22.1'
+    testImplementation 'com.code-intelligence:jazzer-junit:0.22.1'
 
     implementation group: 'com.h2database', name: 'h2', version: '2.2.222'
     implementation 'org.hibernate:hibernate-core:6.5.0.CR2'
     implementation 'jakarta.persistence:jakarta.persistence-api:3.0.0'
-    implementation 'net.jqwik:jqwik:1.9.0'
 }
 
 test {
