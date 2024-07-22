@@ -12,7 +12,8 @@ class AURLCreator {
    URLCreator urlCreator = new URLCreator();
 
    @Test
-   void returnsCombinedURLStringGivenServerAndDocument() throws MalformedURLException {
+   void returnsCombinedURLStringGivenServerAndDocument()
+         throws MalformedURLException {
       assertEquals(
          "https://example.com/customer?id=123",
          urlCreator.create("example.com", "customer?id=123"));

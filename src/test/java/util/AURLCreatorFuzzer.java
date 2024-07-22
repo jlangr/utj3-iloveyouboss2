@@ -7,7 +7,8 @@ import java.net.MalformedURLException;
 
 public class AURLCreatorFuzzer {
    @FuzzTest
-   public void fuzzTestIsValidURL(FuzzedDataProvider data) throws MalformedURLException {
+   public void fuzzTestIsValidURL(FuzzedDataProvider data)
+         throws MalformedURLException {
       var server = data.consumeString(32);
       var document = data.consumeRemainingAsString();
       new URLCreator().create(server, document);
