@@ -1,6 +1,6 @@
 package util;
 
-// START:impl
+// START:test
 import com.code_intelligence.jazzer.api.FuzzedDataProvider;
 import com.code_intelligence.jazzer.junit.FuzzTest;
 import java.net.MalformedURLException;
@@ -13,4 +13,4 @@ public class AURLCreatorFuzzer {
       new URLCreator().create(server, document);
    }
 }
-// END:impl
+// END:test
