@@ -1,5 +1,6 @@
 package util;
 
+// START:impl
 import java.net.MalformedURLException;
 import java.net.URL;
 import static java.lang.String.format;
@@ -22,3 +23,4 @@ public class URLCreator {
          : document;
    }
 }
+// END:impl
