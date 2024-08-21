@@ -10,7 +10,8 @@ public class URLCreator {
          throws MalformedURLException {
       if (isEmpty(document))
          return new URL(format("https://%s", server)).toString();
-      return new URL(format("https://%s/%s", server, clean(document))).toString();
+      return new URL(
+         format("https://%s/%s", server, clean(document))).toString();
    }
 
    private boolean isEmpty(String document) {

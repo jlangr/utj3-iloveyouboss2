@@ -22,7 +22,8 @@ class AURLCreator {
    @ParameterizedTest
    @NullSource
    @ValueSource(strings = { "", " \n\t\r " })
-   void buildsURLGivenServerOnly(String document) throws MalformedURLException {
+   void buildsURLGivenServerOnly(String document)
+         throws MalformedURLException {
       assertEquals(
          "https://example.com",
          urlCreator.create("example.com", document));
